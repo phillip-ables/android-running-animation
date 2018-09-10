@@ -18,5 +18,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(gameView);
     }
 
+    class GameView extends SurfaceView implements Runnable {
 
+        private Thread gameThread;
+        private SurfaceHolder ourHolder;
+        private volatile boolean playing;
+        private Canvas canvas;
+        private Bitmap bitmapRunningMan;
+        private boolean isMoving;
+        private float runSpeedPerSecond = 250;
+        private float manXPos = 10, manYPos = 10;
+        private int frameWidth = 115, frameHeight = 137;
+        private int frameCount = 8;
+        private int currentFrame = 0;
+        private long fps;
+        private long timeThisFrame;
+        private long lastFrameChangeTime = 0;
+        private int framLengthInMillisecond = 100;
+
+    }
 }
