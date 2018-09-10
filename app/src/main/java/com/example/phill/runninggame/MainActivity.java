@@ -1,7 +1,10 @@
 package com.example.phill.runninggame;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
@@ -36,5 +39,15 @@ public class MainActivity extends AppCompatActivity {
         private long lastFrameChangeTime = 0;
         private int framLengthInMillisecond = 100;
 
+        private Rect framToDraw = new Rect(0,0,frameWidth,frameHeight);
+
+        public GameView(Context context){
+            super(context);
+            ourHolder = getHolder();
+            bitmapRunningMan = BitmapFactory.decodeResource(getResources(), R.drawable.running);
+            bitmapRunningMan = Bitmap.createScaledBitmap(bitmapRunningMan, frameWidth * frameCount, frameHeight, false);
+        }
+
+        }
     }
 }
