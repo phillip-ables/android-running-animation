@@ -48,6 +48,23 @@ public class MainActivity extends AppCompatActivity {
             bitmapRunningMan = Bitmap.createScaledBitmap(bitmapRunningMan, frameWidth * frameCount, frameHeight, false);
         }
 
+        @Override
+        public void run() {
+            while (playing) {
+                long startFrameTime = System.currentTimeMillis();
+                update();
+                draw();
+
+                timeThisFrame = System.currentTimeMillis() - startFrameTime;
+
+                if (timeThisFrame >= 1){
+                    fps = 1000 / timeThisFrame;
+                }
+
+                public void update() {
+
+                }
+            }
         }
     }
 }
