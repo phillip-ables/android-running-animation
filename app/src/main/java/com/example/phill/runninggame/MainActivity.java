@@ -127,6 +127,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-       
+        public void resume() {
+            playing = true;
+            gameThread = new Thread(this);
+            gameThread.start();
+        }
+
+        
     }
 }
