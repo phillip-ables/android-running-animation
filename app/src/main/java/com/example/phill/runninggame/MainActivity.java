@@ -117,6 +117,16 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        
+        public void pause() {
+            playing = false;
+
+            try {
+                gameThread.join();
+            } catch(InterruptedException e){
+                Log.e("ERR", "Joining Thread");
+            }
+        }
+
+       
     }
 }
