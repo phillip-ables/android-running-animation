@@ -106,5 +106,17 @@ public class MainActivity extends AppCompatActivity {
             frameToDraw.right = frameToDraw.left + frameWidth;
         }
 
+        public void draw() {
+            if (ourHolder.getSurface().isValid()){
+                canvas = ourHolder.lockCanvas();
+                canvas.drawColor(Color.WHITE);
+                whereToDraw.set((int) manXPos, (int) manYPos,(int) manYPos + frameWidth, (int) manYPos + frameHeight);
+                manageCurrentFrame();
+                canvas.drawBitmap(bitmapRunningMan, frameToDraw, whereToDraw, null);
+                ourHolder.unlockCanvasAndPost(canvas);
+            }
+        }
+
+        
     }
 }
