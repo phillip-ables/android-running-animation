@@ -90,6 +90,21 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-       
+        public void manageCurrentFrame() {
+            long time = System.currentTimeMillis();
+            if(isMoving){
+                if(time > lastFrameChangeTime + frameLengthInMillisecond) {
+                    lastFrameChangeTime = time;
+                    currentFrame++;
+
+                    if(currentFrame >= frameCount) {
+                        currentFrame = 0;
+                    }
+                }
+            }
+            frameToDraw.left = currentFrame * frameWidth;
+            frameToDraw.right = frameToDraw.left + frameWidth;
+        }
+
     }
 }
