@@ -133,6 +133,15 @@ public class MainActivity extends AppCompatActivity {
             gameThread.start();
         }
 
-        
+        @Override
+        public boolean onTouchEvent(MotionEvent event) {
+            switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                case MotionEvent.ACTION_DOWN :
+                    isMoving = !isMoving;
+                    break;
+            }
+
+            return true;
+        }
     }
 }
