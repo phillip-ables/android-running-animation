@@ -4,9 +4,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -19,6 +23,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         gameView = new GameView(this);
         setContentView(gameView);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        gameView.pause();
     }
 
     class GameView extends SurfaceView implements Runnable {
@@ -37,9 +47,11 @@ public class MainActivity extends AppCompatActivity {
         private long fps;
         private long timeThisFrame;
         private long lastFrameChangeTime = 0;
-        private int framLengthInMillisecond = 100;
+        private int frameLengthInMillisecond = 100;
 
-        private Rect framToDraw = new Rect(0,0,frameWidth,frameHeight);
+        private Rect frameToDraw = new Rect(0,0,frameWidth,frameHeight);
+
+        private RectF whereToDraw = new RectF(manXPos, manYPos, manXPos + frameWidth, frameHeight);
 
         public GameView(Context context){
             super(context);
@@ -60,11 +72,24 @@ public class MainActivity extends AppCompatActivity {
                 if (timeThisFrame >= 1){
                     fps = 1000 / timeThisFrame;
                 }
+            }
+        }
 
-                public void update() {
+        public void update() {
+            if(isMoving){
+                manXPos = manXPos + runSpeedPerSecond / fps;
 
+                if ( manXPos > getWidth()){
+                    manYPos += (int) frameHeight;
+                    manXPos = 10;
+                }
+
+                if(manYPos + frameHeight > getHeight()){
+                    manYPos = 10;
                 }
             }
         }
+
+       
     }
 }
