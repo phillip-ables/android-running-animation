@@ -15,7 +15,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 public class MainActivity extends AppCompatActivity {
-
     private GameView gameView;
 
     @Override
@@ -45,21 +44,21 @@ public class MainActivity extends AppCompatActivity {
         private Canvas canvas;
         private Bitmap bitmapRunningMan;
         private boolean isMoving;
-        private float runSpeedPerSecond = 250;
+        private float runSpeedPerSecond = 500;
         private float manXPos = 10, manYPos = 10;
-        private int frameWidth = 115, frameHeight = 137;
+        private int frameWidth = 230, frameHeight = 274;
         private int frameCount = 8;
         private int currentFrame = 0;
         private long fps;
         private long timeThisFrame;
         private long lastFrameChangeTime = 0;
-        private int frameLengthInMillisecond = 100;
+        private int frameLengthInMillisecond = 50;
 
-        private Rect frameToDraw = new Rect(0,0,frameWidth,frameHeight);
+        private Rect frameToDraw = new Rect(0, 0, frameWidth, frameHeight);
 
         private RectF whereToDraw = new RectF(manXPos, manYPos, manXPos + frameWidth, frameHeight);
 
-        public GameView(Context context){
+        public GameView(Context context) {
             super(context);
             ourHolder = getHolder();
             bitmapRunningMan = BitmapFactory.decodeResource(getResources(), R.drawable.running);
@@ -75,22 +74,22 @@ public class MainActivity extends AppCompatActivity {
 
                 timeThisFrame = System.currentTimeMillis() - startFrameTime;
 
-                if (timeThisFrame >= 1){
+                if (timeThisFrame >= 1) {
                     fps = 1000 / timeThisFrame;
                 }
             }
         }
 
         public void update() {
-            if(isMoving){
+            if (isMoving) {
                 manXPos = manXPos + runSpeedPerSecond / fps;
 
-                if ( manXPos > getWidth()){
+                if (manXPos > getWidth()) {
                     manYPos += (int) frameHeight;
                     manXPos = 10;
                 }
 
-                if(manYPos + frameHeight > getHeight()){
+                if (manYPos + frameHeight > getHeight()) {
                     manYPos = 10;
                 }
             }
@@ -98,25 +97,27 @@ public class MainActivity extends AppCompatActivity {
 
         public void manageCurrentFrame() {
             long time = System.currentTimeMillis();
-            if(isMoving){
-                if(time > lastFrameChangeTime + frameLengthInMillisecond) {
+
+            if (isMoving) {
+                if (time > lastFrameChangeTime + frameLengthInMillisecond) {
                     lastFrameChangeTime = time;
                     currentFrame++;
 
-                    if(currentFrame >= frameCount) {
+                    if (currentFrame >= frameCount) {
                         currentFrame = 0;
                     }
                 }
             }
+
             frameToDraw.left = currentFrame * frameWidth;
             frameToDraw.right = frameToDraw.left + frameWidth;
         }
 
         public void draw() {
-            if (ourHolder.getSurface().isValid()){
+            if (ourHolder.getSurface().isValid()) {
                 canvas = ourHolder.lockCanvas();
                 canvas.drawColor(Color.WHITE);
-                whereToDraw.set((int) manXPos, (int) manYPos,(int) manYPos + frameWidth, (int) manYPos + frameHeight);
+                whereToDraw.set((int) manXPos, (int) manYPos, (int) manXPos + frameWidth, (int) manYPos + frameHeight);
                 manageCurrentFrame();
                 canvas.drawBitmap(bitmapRunningMan, frameToDraw, whereToDraw, null);
                 ourHolder.unlockCanvasAndPost(canvas);
@@ -128,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 gameThread.join();
-            } catch(InterruptedException e){
+            } catch(InterruptedException e) {
                 Log.e("ERR", "Joining Thread");
             }
         }
